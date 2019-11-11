@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+{% for post in posts.all %}
+        <div class="container">
+            <h1>제목 : {{ post.title }}</h1>
+            
+            <p>작성자 : {{ post.name }}</p>
+            
+            <p>시간 : {{ post.pub_date }}</p>
+            <p>본문 : {{ post.summary }}</p>
+            <p>좋아요 : <small class="text-muted"><span class="like_count" id="count{{ post.id }}">{{ post.total_likes }} like</span></small></p>
+            <a href="{% url 'detail' post.id %}">자세히보기</a>
+        </div>
+{% endfor %}
+
+{% endblock %}
