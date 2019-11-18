@@ -7,63 +7,66 @@
 
 <style>
     a.navbar-brand{
-        font-size: 35px;
-        padding: 0px;
-        margin-left: 100px;
-    }
-    
-    p.info{
-        font-size: 15px;
-        padding: 0px;
-        margin-right: 300px;
+        padding: 20px;
+        font-size: 30px;
     }
 
-    div.user{
-        padding: 0px;
-        margin-
+    form.form-inline{
+        padding: 30px;
     }
 
 </style>
 </header>
 
 <body>
-<nav class="navbar navbar-expand-xl navbar-light" style="background-color: #e3f2fd;">
+<nav class="navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <div class="navbar-header">
-            <a href="{% url 'home' %}" class="navbar-brand">Instagram</a>
+
+        <div class="row">
+
+            <div class="col-xl-4 ml-auto">
+                <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
+            </div>
+
+            <div class="col-xl-8 ml-auto">
+                <form action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" name="q" value="{{ q }}" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
+        </div>
+        
+    </div>
+</nav>
+<br>
+<div align="center">
+    <div class="col-xl ml-auto">
+        <div class="user">
+            {% if user.is_authenticated %}
+            <p class="username">
+                {{ user.username }} 님 &nbsp; &nbsp;
+            </p>
+        
+            <form id="logout" method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <input type="submit" value="로그아웃"> &nbsp; &nbsp;
+            </form>
+        
+            <a href="{% url 'new' %}">글쓰기</a>
+        
+            {% else %}
+            
+            <div class="user">
+                <p class="username"><strong>로그인 해주세요</strong></p> &nbsp; &nbsp;
+                <a href="{% url 'login' %}">로긴</a> &nbsp; &nbsp;
+                <a href="{% url 'signup' %}">횐갑</a> &nbsp; &nbsp;
+            </div>
+        
+            {% endif %}
         </div>
     </div>
-
-    <form action="{% url 'search' %}" method="get">
-        <input type="text" name="q" value="{{ q }}">
-        <input type="submit" value="검색">
-    </form>
-
-    <p class="info">
-    {% if user.is_authenticated %}
-    <div class="user">
-    {{ user.username }} 님 &nbsp; &nbsp;
-    </div>
-
-        <form id="logout" method="POST" action="{% url 'logout' %}">
-            {% csrf_token %} 
-            <input type="submit" value="로그아웃"> &nbsp; &nbsp;
-        </form>
-
-    <a href="{% url 'new' %}">글쓰기</a>
-
-    {% else %}
-
-    로그인 해주세요 &nbsp; &nbsp;
-    <a href="{% url 'login' %}">로긴</a> &nbsp; &nbsp;
-    <a href="{% url 'signup' %}">횐갑</a> &nbsp; &nbsp;
-
-    {% endif %}
-    </p>
-
-</nav>
-
-
+</div>
 
 <div class="container">
     {% block content %}
